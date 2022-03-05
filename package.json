@@ -2,6 +2,11 @@
   "name": "svelte-bootstrap-tag-input",
   "version": "1.0.0",
   "type": "module",
+  "module": "dist/svelte-bootstrap-tag-input.es.js",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "vite build",
     "dev": "vite",

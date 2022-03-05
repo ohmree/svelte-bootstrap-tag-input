@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Tags from './components/Tags.svelte';
+  import Tags from '../src';
 
   let tags: string[] = ['hi'];
   const transform = (value: string) => value.toUpperCase();
@@ -12,5 +12,4 @@
 <style lang="scss" global>
   @charset 'utf-8';
   @use 'bootstrap/scss/bootstrap';
-  /* @import './global'; */
 </style>

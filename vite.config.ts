@@ -6,21 +6,26 @@ import { typescript } from 'svelte-preprocess-esbuild';
 export default defineConfig({
   plugins: [
     svelte({
-      preprocess: [typescript({ target: 'es2020' }), preprocess({ typescript: false })],
+      preprocess: [typescript(), preprocess({ typescript: false })],
     }),
   ],
   build: {
     lib: {
-      entry: 'src/components/index.ts',
-      name: 'SvelteBootstrapTagInput',
+      entry: 'src/index.ts',
+      formats: ['es'],
+      // name: 'SvelteBootstrapTagInput',
     },
     rollupOptions: {
-      external: ['svelte', 'bootstrap'],
+      external: ['svelte'],
       output: {
-        globals: {
-          svelte: 'svelte',
-        },
+        // globals: {
+        //   svelte: 'svelte',
+        // },
+        sourcemapExcludeSources: true,
       },
     },
+    sourcemap: true,
+    target: 'esnext',
+    minify: false,
   },
 });
