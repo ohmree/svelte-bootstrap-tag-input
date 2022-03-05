@@ -31,6 +31,9 @@ interface TagsPropsBase extends svelte.JSX.HTMLAttributes<HTMLElementTagNameMap[
   placeholder?: string;
   inputSize?: TagsSize;
   transform?: (value: string) => string;
+}
+
+interface TagsPropsInaccessible extends TagsPropsBase {
   label: never;
   id: never;
 }
@@ -40,7 +43,7 @@ interface TagsPropsAccessible extends TagsPropsBase {
   id: string;
 }
 
-export type TagsProps = (TagsPropsBase | TagsPropsAccessible) & Record<string, never>;
+export type TagsProps = (TagsPropsInaccessible | TagsPropsAccessible) & Record<string, never>;
 
 export default class Tags extends SvelteComponentTyped<
   TagsProps,
