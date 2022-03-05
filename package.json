@@ -1,27 +1,50 @@
 {
-  "name": "svelte-bulma-tag-input",
-  "version": "1.1.0",
+  "name": "svelte-bootstrap-tag-input",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "start": "sirv public"
+    "build": "vite build",
+    "dev": "vite",
+    "start": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json --ignore node_modules",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch --ignore node_modules",
+    "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore . --cache --fix",
+    "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. .",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^12.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
-    "autoprefixer": "^9.8.6",
-    "postcss": "^8.3.0",
-    "rollup": "^2.3.4",
-    "rollup-plugin-livereload": "^1.0.0",
-    "rollup-plugin-svelte": "^5.0.3",
-    "rollup-plugin-terser": "^5.1.2",
-    "sass": "^1.34.0",
-    "svelte": "^3.0.0",
-    "svelte-preprocess": "^4.7.3",
-    "svelte-bulma-tag-input": "^1.1.0"
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.39",
+    "@types/eslint": "^8.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "bootstrap": "^5.1.3",
+    "esbuild": "^0.14.25",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-svelte3": "^3.4.1",
+    "husky": "^7.0.4",
+    "keyboard-event-key-type": "github:ohmree/keyboard-event-key-type#fixed-intellisense",
+    "lint-staged": "^12.3.5",
+    "prettier": "^2.5.1",
+    "prettier-plugin-svelte": "^2.6.0",
+    "sass": "^1.49.9",
+    "svelte": "^3.46.4",
+    "svelte-check": "^2.4.5",
+    "svelte-preprocess": "^4.10.4",
+    "svelte-preprocess-esbuild": "^2.0.0",
+    "typescript": "^4.6.2",
+    "typescript-svelte-plugin": "^0.3.0",
+    "vite": "^2.8.6"
   },
-  "dependencies": {
-    "bulma": "^0.9.2",
-    "sirv-cli": "^0.4.4"
+  "peerDependencies": {
+    "bootstrap": "^5.1.3",
+    "svelte": "^3.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,svelte}": [
+      "prettier --ignore-path .gitignore --check --plugin-search-dir=.",
+      "eslint --ignore-path .gitignore --cache --fix"
+    ],
+    "*.{cjs,json,ts,md,svelte,html}": "prettier --ignore-path .gitignore --write --plugin-search-dir=."
   }
 }
