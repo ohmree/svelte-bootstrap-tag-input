@@ -1,14 +1,15 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
   import { createEventDispatcher } from 'svelte';
-  import type { TagsColor, TagsSize } from './Tags';
-  import type { KeyboardEventKey } from 'keyboard-event-key-type';
+  import type { TagsColor, TagsSize, KeyboardEventKey, TagsEvents, TagsProps } from './types';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<TagsEvents>();
 
   let tagInput: HTMLInputElement | undefined;
   let tag = '';
   let tagRemoveButtonSize: TagsSize;
   let duplicateIndices = new Set<number>();
+
+  type $$Props = TagsProps;
 
   export let tags: string[] = [];
   export let splitWith = ' ';
@@ -30,7 +31,6 @@
   $: shouldDisable =
     disabled || (typeof maxTags !== 'undefined' && maxTags > 0 && tags.length >= maxTags);
   $: tagsLeft = maxTags ? maxTags - tags.length : 0;
-  $: console.log(duplicateIndices);
 
   if (transform) {
     tags = tags.map(transform);

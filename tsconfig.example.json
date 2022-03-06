@@ -1,0 +1,16 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "es2020",
+    "lib": ["es2020", "DOM"],
+    "noEmit": true,
+    "strict": true,
+    "plugins": [
+      {
+        "name": "typescript-svelte-plugin"
+      }
+    ]
+  },
+  "include": ["example/*"]
+}
