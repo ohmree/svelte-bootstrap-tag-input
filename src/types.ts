@@ -33,23 +33,23 @@ export interface Accessible {
 export type Accessibility = Inaccessible | Accessible;
 
 export type TagsProps = Accessibility & {
-    tags?: string[];
-    addKeys?: KeyboardEventKey[];
-    removeKeys?: KeyboardEventKey[];
-    maxTags?: number;
-    splitWith?: string;
-    allowDuplicates?: boolean;
-    allowPaste?: boolean;
-    allowDrop?: boolean;
-    disabled?: boolean;
-    tagColor?: TagsColor;
-    hasError?: boolean;
-    placeholder?: string;
-    inputSize?: TagsSize;
-    transform?: (value: string) => string;
-  }
+  tags?: string[];
+  addKeys?: KeyboardEventKey[];
+  removeKeys?: KeyboardEventKey[];
+  maxTags?: number;
+  splitWith?: string;
+  allowDuplicates?: boolean;
+  allowPaste?: boolean;
+  allowDrop?: boolean;
+  disabled?: boolean;
+  tagColor?: TagsColor;
+  hasError?: boolean;
+  placeholder?: string;
+  inputSize?: TagsSize;
+  transform?: (value: string) => string;
+};
 
 export type { KeyboardEventKey };
 
-declare class Tags extends SvelteComponentTyped<TagsProps, TagsEvents> {};
+declare class Tags extends SvelteComponentTyped<TagsProps, TagsEvents> {}
 export default Tags;
