@@ -1,6 +1,6 @@
 import type { KeyboardEventKey } from 'keyboard-event-key-type';
 import type { SvelteComponentTyped } from 'svelte';
-import type { EasingFunction, ScaleParams } from 'svelte/transition';
+import type { ScaleParams } from 'svelte/transition';
 
 export type TagColor =
   | 'primary'

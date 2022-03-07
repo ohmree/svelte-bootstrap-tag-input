@@ -1,3 +1,11 @@
+<script lang="ts" context="module">
+  import { derived, writable } from 'svelte/store';
+
+  const tagsLeft = writable(0);
+  const tagsLeftReadonly = derived(tagsLeft, ($tagsLeft) => $tagsLeft);
+  export { tagsLeftReadonly as tagsLeft };
+</script>
+
 <script lang="ts" strictEvents>
   import { createEventDispatcher } from 'svelte';
   import { scale, type ScaleParams } from 'svelte/transition';
@@ -5,18 +13,20 @@
     TagColor,
     Size,
     KeyboardEventKey,
-    TagInputProps,
-    TagInputEventMap,
+    TagInputProps as Props,
+    TagInputEventMap as EventMap,
+    TagInputEvents as Events,
   } from './types';
 
-  const dispatch = createEventDispatcher<TagInputEventMap>();
+  const dispatch = createEventDispatcher<EventMap>();
 
   let tagInput: HTMLInputElement | undefined;
   let tag = '';
   let tagRemoveButtonSize: Size;
   let duplicateIndices = new Set<number>();
 
-  type $$Props = TagInputProps;
+  type $$Props = Props;
+  type $$Events = Events;
 
   export let tags: string[] = [];
   export let splitWith = ' ';
@@ -34,11 +44,11 @@
   export let label: string | undefined = undefined;
   export let id: string | undefined = undefined;
   export let transform: ((value: string) => string) | undefined = undefined;
-  export let scaleParams: ScaleParams | undefined = undefined;
+  export let scaleParams: ScaleParams | undefined = { opacity: 1.0, start: 0.5, duration: 150 };
 
   $: shouldDisable =
     disabled || (typeof maxTags !== 'undefined' && maxTags > 0 && tags.length >= maxTags);
-  $: tagsLeft = maxTags ? maxTags - tags.length : 0;
+  $: $tagsLeft = maxTags ? maxTags - tags.length : 0;
 
   if (transform) {
     tags = tags.map(transform);
@@ -120,7 +130,6 @@
       tag = '';
     }
 
-    // if (!newTag || shouldDisable || (!allowDuplicates && tags.includes(newTag))) return;
     if (!newTag || shouldDisable || (!allowDuplicates && newTagIndex !== -1)) return;
 
     tags.push(transform ? transform(newTag) : newTag);
@@ -145,11 +154,13 @@
 >
   <div class="d-flex flex-wrap">
     {#each tags as tag, i}
+      {@const isDuplicate = duplicateIndices.has(i)}
       <span
         class="tag d-inline-flex align-items-center badge bg-{tagColor}"
-        style:transform={duplicateIndices.has(i) ? 'scale(1.09)' : ''}
+        style:transform={isDuplicate ? 'scale(1.09)' : ''}
         transition:scale={scaleParams}
         on:transitionend={() => removeDuplicateIndex(i)}
+        on:transitioncancel={() => removeDuplicateIndex(i)}
       >
         <span class="tag-text d-inline text-truncate">{tag}</span>
         {#if !disabled}
@@ -178,7 +189,7 @@
       on:keydown={createByKey}
       on:keydown={removeByKey}
       on:keydown={(event) => {
-        if (maxTags && tagsLeft <= 0) {
+        if (maxTags && $tagsLeft <= 0) {
           event.preventDefault();
         }
       }}
@@ -187,10 +198,6 @@
     />
   </div>
 </div>
-
-{#if maxTags}
-  <p>{tags.length}/{maxTags}</p>
-{/if}
 
 <style lang="scss">
   @import 'bootstrap/scss/functions';
