@@ -1,5 +1,4 @@
-The MIT License (MIT)
-=====================
+# The MIT License (MIT)
 
 Copyright © `2021` [`Suneesh S K`](https://github.com/sunnypol92)  
 Copyright © `2022` [`Ohmree`](https://github.com/ohmree)
