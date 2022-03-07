@@ -1,21 +1,3 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
-  "compilerOptions": {
-    "moduleResolution": "node",
-    "module": "es2020",
-    "lib": ["es2020", "DOM"],
-    "sourceMap": true,
-    "emitDeclarationOnly": true,
-    "declaration": true,
-    "declarationDir": "dist",
-    "strict": true,
-    "importHelpers": true,
-    "plugins": [
-      {
-        "name": "typescript-svelte-plugin"
-      }
-    ]
-  },
-  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"],
-  "exclude": ["node_modules"]
+	"extends": "./.svelte-kit/tsconfig.json"
 }

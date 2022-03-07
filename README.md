@@ -1,54 +1,40 @@
-# TODO: write readme
+# create-svelte
 
-<details>
-<summary>The original readme for the bulma version of this</summary><p>
-<h1>Svelte tags input using Bulma</h1>
-<div>A rich component for input tags with help of Bulma css</div>
-<br />
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
-## Install
+## Creating a project
+
+If you're seeing this, you've probably already done this step. Congrats!
 
 ```bash
-npm install svelte-bulma-tag-input --save
+# create a new project in the current directory
+npm init svelte@next
+
+# create a new project in my-app
+npm init svelte@next my-app
 ```
 
-```javascript
-import Tags from 'svelte-bulma-tag-input';
+> Note: the `@next` is temporary
 
-<Tags bind:tags maxTags={5} />;
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```bash
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-```javascript
-@import "<PATH>/node_modules/svelte-bulma-tag-input/src/scss/styles";
+## Building
+
+To create a production version of your app:
+
+```bash
+npm run build
 ```
 
-## Options
+You can preview the production build with `npm run preview`.
 
-| Option          | Type       | Default                | Description                               |
-| --------------- | ---------- | ---------------------- | ----------------------------------------- |
-| addKeys         | `Array`    | <kbd>ENTER</kbd> 13    | Set which keys add new values             |
-| removeKeys      | `Array`    | <kbd>BACKSPACE</kbd> 8 | Set which keys remove new values          |
-| maxTags         | `Number`   | 5                      | Set maximum number of tags                |
-| disabled        | `Boolean`  | `false`                | Disable input                             |
-| hasError        | `Boolean`  | `false`                | Set input error state                     |
-| allowDuplicates | `Boolean`  | `false`                | Set the entered tags to be duplicatable   |
-| tagColor        | `String`   | `primary`              | Set the tag color                         |
-| tagSize         | `String`   | `normal`               | Set the tag size                          |
-| inputSize       | `String`   | `normal`               | Set the input field size                  |
-| placeholder     | `String`   | `null`                 | Set a placeholder                         |
-| on:change       | `Function` | `undefined`            | To get the event fire from the tag change |
-
-##### [A complete list of key codes](https://keycode.info/)
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Author
-
-[Suneesh S K](https://github.com/sunnypol92)
-
-##### 2021
-
-</p>
-</details>
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.

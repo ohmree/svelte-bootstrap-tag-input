@@ -1,9 +1,8 @@
-# Directories
-node_modules/
-dist/
-/public/build/
-
 .DS_Store
-/.log/
-/pnpm-lock.yaml
-/.eslintcache
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example
