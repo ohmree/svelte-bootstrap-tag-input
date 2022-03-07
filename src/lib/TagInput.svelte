@@ -49,13 +49,15 @@
 
   const tags = writable(
     transform
-      ? tagsArray.map((text) => ({ key: Symbol(), text: transform!(text) }))
+      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        tagsArray.map((text) => ({ key: Symbol(), text: transform!(text) }))
       : tagsArray.map((text) => ({ key: Symbol(), text })),
   );
 
   function pushTag(text: string) {
     if (transform) {
       tags.update((v) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         v.push({ key: Symbol(), text: transform!(text) });
         return v;
       });

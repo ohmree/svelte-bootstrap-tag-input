@@ -1,6 +1,5 @@
 <script lang="ts" strictEvents>
   import TagInput, { tagsLeft } from '$lib';
-  import { cubicInOut } from 'svelte/easing';
 
   let tags: string[] = ['hi'];
   const transform = (value: string) => value.toUpperCase();
