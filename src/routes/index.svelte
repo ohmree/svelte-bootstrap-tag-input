@@ -14,7 +14,6 @@
     {transform}
     allowDrop
     allowPaste
-    scaleParams={{ easing: cubicInOut, duration: 150, start: 0.5 }}
     maxTags={5}
   />
   <p>{$tagsLeft === 0 ? 'No' : $tagsLeft} more tags are allowed.</p>

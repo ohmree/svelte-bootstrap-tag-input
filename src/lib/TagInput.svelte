@@ -28,7 +28,8 @@
   type $$Props = Props;
   type $$Events = Events;
 
-  export let tags: string[] = [];
+  let tagsArray: string[] = [];
+  export { tagsArray as tags };
   export let splitWith = ' ';
   export let addKeys = <KeyboardEventKey[]>[splitWith];
   export let removeKeys = <KeyboardEventKey[]>['Backspace'];
@@ -46,13 +47,40 @@
   export let transform: ((value: string) => string) | undefined = undefined;
   export let scaleParams: ScaleParams | undefined = { opacity: 1.0, start: 0.5, duration: 150 };
 
-  $: shouldDisable =
-    disabled || (typeof maxTags !== 'undefined' && maxTags > 0 && tags.length >= maxTags);
-  $: $tagsLeft = maxTags ? maxTags - tags.length : 0;
+  const tags = writable(
+    transform
+      ? tagsArray.map((text) => ({ key: Symbol(), text: transform!(text) }))
+      : tagsArray.map((text) => ({ key: Symbol(), text })),
+  );
 
-  if (transform) {
-    tags = tags.map(transform);
+  function pushTag(text: string) {
+    if (transform) {
+      tags.update((v) => {
+        v.push({ key: Symbol(), text: transform!(text) });
+        return v;
+      });
+    } else {
+      tags.update((v) => {
+        v.push({ key: Symbol(), text });
+        return v;
+      });
+    }
   }
+
+  function popTag() {
+    let returnValue: typeof $tags[0] | undefined;
+    tags.update((v) => {
+      returnValue = v.pop();
+      return v;
+    });
+
+    return returnValue;
+  }
+
+  $: shouldDisable =
+    disabled || (typeof maxTags !== 'undefined' && maxTags > 0 && $tags.length >= maxTags);
+  $: $tagsLeft = maxTags ? maxTags - $tags.length : 0;
+  $: tagsArray = $tags.map((t) => t.text);
 
   function createByKey(e: KeyboardEvent) {
     if (addKeys?.indexOf(e.key) !== -1) {
@@ -70,7 +98,7 @@
     if (data) {
       const chunks = data.split(splitWith).map((s) => s.trim());
       for (const chunk of chunks) {
-        if (!maxTags || tags.length < maxTags) {
+        if (!maxTags || $tags.length < maxTags) {
           addTag(chunk);
         }
       }
@@ -86,7 +114,7 @@
     if (data) {
       const chunks = data.split(splitWith).map((s) => s.trim());
       for (const chunk of chunks) {
-        if (!maxTags || tags.length < maxTags) {
+        if (!maxTags || $tags.length < maxTags) {
           addTag(chunk);
         }
       }
@@ -94,21 +122,22 @@
   }
 
   function removeByKey(e: KeyboardEvent) {
-    if (tags.length > 0 && removeKeys?.indexOf(e.key) !== -1 && tag.length <= 0) {
-      tags.pop();
-      tags = tags;
+    if ($tags.length > 0 && removeKeys?.indexOf(e.key) !== -1 && tag.length <= 0) {
+      popTag();
 
-      dispatch('change', tags);
+      dispatch('change', tagsArray);
     }
   }
 
   function removeByClick(i: number) {
     if (disabled) return;
 
-    tags.splice(i, 1);
-    tags = tags;
+    tags.update((v) => {
+      v.splice(i, 1);
+      return v;
+    });
 
-    dispatch('change', tags);
+    dispatch('change', tagsArray);
 
     setTimeout(() => {
       tagInput?.focus();
@@ -116,13 +145,10 @@
   }
 
   function addTag(newTag?: string) {
-    if (!newTag) {
-      newTag = (transform ? transform(tag) : tag).trim();
-    } else {
-      newTag = (transform ? transform(newTag) : newTag).trim();
-    }
+    newTag ??= tag;
+    newTag = newTag.trim();
 
-    const newTagIndex = tags.indexOf(newTag);
+    const newTagIndex = $tags.findIndex(({ text }) => text === newTag);
 
     if (!allowDuplicates) {
       duplicateIndices.add(newTagIndex);
@@ -130,13 +156,14 @@
       tag = '';
     }
 
-    if (!newTag || shouldDisable || (!allowDuplicates && newTagIndex !== -1)) return;
+    if (!newTag || shouldDisable || (!allowDuplicates && newTagIndex !== -1)) {
+      return;
+    }
 
-    tags.push(transform ? transform(newTag) : newTag);
-    tags = tags;
+    pushTag(newTag);
     tag = '';
 
-    dispatch('change', tags);
+    dispatch('change', tagsArray);
   }
 
   function removeDuplicateIndex(index: number) {
@@ -153,16 +180,17 @@
   disabled={disabled ? true : undefined}
 >
   <div class="d-flex flex-wrap">
-    {#each tags as tag, i}
-      {@const isDuplicate = duplicateIndices.has(i)}
+    {#each $tags as { key, text }, i (key)}
+      {@const isDuplicate = !allowDuplicates && duplicateIndices.has(i)}
+      {@const transitionHandler = !allowDuplicates ? () => removeDuplicateIndex(i) : undefined}
       <span
         class="tag d-inline-flex align-items-center badge bg-{tagColor}"
         style:transform={isDuplicate ? 'scale(1.09)' : ''}
         transition:scale={scaleParams}
-        on:transitionend={() => removeDuplicateIndex(i)}
-        on:transitioncancel={() => removeDuplicateIndex(i)}
+        on:transitionend={transitionHandler}
+        on:transitioncancel={transitionHandler}
       >
-        <span class="tag-text d-inline text-truncate">{tag}</span>
+        <span class="tag-text d-inline text-truncate">{text}</span>
         {#if !disabled}
           <button
             type="button"
