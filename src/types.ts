@@ -1,7 +1,8 @@
 import type { KeyboardEventKey } from 'keyboard-event-key-type';
 import type { SvelteComponentTyped } from 'svelte';
+import type { EasingFunction, ScaleParams } from 'svelte/transition';
 
-export type TagsColor =
+export type TagColor =
   | 'primary'
   | 'secondary'
   | 'success'
@@ -14,11 +15,15 @@ export type TagsColor =
   | (string & Record<string, never>)
   | undefined;
 
-export type TagsSize = 'lg' | 'sm' | (string & Record<string, never>) | undefined;
+export type Size = 'lg' | 'sm' | (string & Record<string, never>) | undefined;
 
-export interface TagsEvents {
-  change: CustomEvent<string[]>;
+export interface TagInputEventMap {
+  change: string[];
 }
+
+export type TagInputEvents = {
+  [Name in keyof TagInputEventMap]: CustomEvent<TagInputEventMap[Name]>;
+};
 
 export interface Inaccessible {
   id?: never;
@@ -32,7 +37,7 @@ export interface Accessible {
 
 export type Accessibility = Inaccessible | Accessible;
 
-export type TagsProps = Accessibility & {
+export type TagInputProps = Accessibility & {
   tags?: string[];
   addKeys?: KeyboardEventKey[];
   removeKeys?: KeyboardEventKey[];
@@ -42,14 +47,15 @@ export type TagsProps = Accessibility & {
   allowPaste?: boolean;
   allowDrop?: boolean;
   disabled?: boolean;
-  tagColor?: TagsColor;
+  tagColor?: TagColor;
   hasError?: boolean;
   placeholder?: string;
-  inputSize?: TagsSize;
+  inputSize?: Size;
   transform?: (value: string) => string;
+  scaleParams?: ScaleParams;
 };
 
 export type { KeyboardEventKey };
 
-declare class Tags extends SvelteComponentTyped<TagsProps, TagsEvents> {}
-export default Tags;
+declare class TagInput extends SvelteComponentTyped<TagInputProps, TagInputEvents> {}
+export default TagInput;

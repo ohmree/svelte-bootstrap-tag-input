@@ -1,15 +1,22 @@
 <script lang="ts" strictEvents>
   import { createEventDispatcher } from 'svelte';
-  import type { TagsColor, TagsSize, KeyboardEventKey, TagsEvents, TagsProps } from './types';
+  import { scale, type ScaleParams } from 'svelte/transition';
+  import type {
+    TagColor,
+    Size,
+    KeyboardEventKey,
+    TagInputProps,
+    TagInputEventMap,
+  } from './types';
 
-  const dispatch = createEventDispatcher<TagsEvents>();
+  const dispatch = createEventDispatcher<TagInputEventMap>();
 
   let tagInput: HTMLInputElement | undefined;
   let tag = '';
-  let tagRemoveButtonSize: TagsSize;
+  let tagRemoveButtonSize: Size;
   let duplicateIndices = new Set<number>();
 
-  type $$Props = TagsProps;
+  type $$Props = TagInputProps;
 
   export let tags: string[] = [];
   export let splitWith = ' ';
@@ -20,13 +27,14 @@
   export let allowPaste = false;
   export let allowDrop = false;
   export let disabled = false;
-  export let tagColor: TagsColor = 'secondary';
+  export let tagColor: TagColor = 'secondary';
   export let hasError = false;
   export let placeholder: string | undefined = undefined;
-  export let inputSize: TagsSize = undefined;
+  export let inputSize: Size = undefined;
   export let label: string | undefined = undefined;
   export let id: string | undefined = undefined;
   export let transform: ((value: string) => string) | undefined = undefined;
+  export let scaleParams: ScaleParams | undefined = undefined;
 
   $: shouldDisable =
     disabled || (typeof maxTags !== 'undefined' && maxTags > 0 && tags.length >= maxTags);
@@ -109,10 +117,6 @@
     if (!allowDuplicates) {
       duplicateIndices.add(newTagIndex);
       duplicateIndices = duplicateIndices;
-      setTimeout(() => {
-        duplicateIndices.delete(newTagIndex);
-        duplicateIndices = duplicateIndices;
-      }, 150);
       tag = '';
     }
 
@@ -124,6 +128,11 @@
     tag = '';
 
     dispatch('change', tags);
+  }
+
+  function removeDuplicateIndex(index: number) {
+    duplicateIndices.delete(index);
+    duplicateIndices = duplicateIndices;
   }
 </script>
 
@@ -139,6 +148,8 @@
       <span
         class="tag d-inline-flex align-items-center badge bg-{tagColor}"
         style:transform={duplicateIndices.has(i) ? 'scale(1.09)' : ''}
+        transition:scale={scaleParams}
+        on:transitionend={() => removeDuplicateIndex(i)}
       >
         <span class="tag-text d-inline text-truncate">{tag}</span>
         {#if !disabled}
@@ -231,6 +242,7 @@
 
     .tag {
       margin: 0px 2px;
+      transition: all 0.15s ease-in-out;
     }
 
     .tag-text {

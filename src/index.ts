@@ -1,2 +1,2 @@
-import Tags from './Tags.svelte';
-export default Tags;
+import TagInput from './TagInput.svelte';
+export default TagInput;
