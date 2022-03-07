@@ -39,3 +39,7 @@ $ pnpm package
 ```
 
 Then follow the instructions printed by the SvelteKit CLI.
+
+## Attributions
+
+This component is based on code from [svelte-bulma-tag-input](https://github.com/sunnypol92/svelte-bulma-tag-input) by [Suneesh S K](https://github.com/sunnypol92).
