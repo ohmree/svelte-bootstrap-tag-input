@@ -1,40 +1,35 @@
-# create-svelte
+# Svelte Bootstrap Tag Input
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+A tag input component for svelte using bootstrap styling.
 
-## Creating a project
+## Installing
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm init svelte@next
-
-# create a new project in my-app
-npm init svelte@next my-app
+```console
+$ npm i github:ohmree/svelte-bootstrap-tag-input # or yarn, or pnpm
 ```
+> Note: this is only temporary, I'll put this on npm soon.
 
-> Note: the `@next` is temporary
+## Using
+
+For now please refer to [`src/routes/index.svelte`](https://github.com/ohmree/svelte-bootstrap-tag-input/blob/main/src/routes/index.svelte) for example usage.  
+Proper documentation will be written soon.
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```console
+$ pnpm dev # optionally add `--open`
 ```
 
-## Building
+## Building the example site
 
-To create a production version of your app:
-
-```bash
-npm run build
+```console
+$ pnpm build
 ```
 
-You can preview the production build with `npm run preview`.
+## Packaging for npm
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+```console
+$ pnpm package
+```
+
+Then follow the instructions printed by the SvelteKit CLI.
