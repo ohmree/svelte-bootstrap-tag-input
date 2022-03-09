@@ -37,7 +37,8 @@ export type TagInputProps = Accessibility & {
   allowPaste?: boolean;
   allowDrop?: boolean;
   disabled?: boolean;
-  tagColor?: TagColor;
+  tagBackground?: TagColor;
+  tagForeground?: TagColor;
   hasError?: boolean;
   placeholder?: string;
   inputSize?: Size;
