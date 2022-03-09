@@ -7,7 +7,7 @@ A tag input component for svelte using bootstrap styling.
 - [ ] Flesh out readme.
 - [ ] Write JSDoc and/or whatever the svelte doc format is called.
 - [x] Set up github pages for the example.
-- [ ] Automate building example site using github actions.
+- [x] Automate building example site using github actions.
 - [ ] Publish to npm.
 
 ## Installing
