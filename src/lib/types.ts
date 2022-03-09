@@ -1,21 +1,11 @@
 import type { KeyboardEventKey } from 'keyboard-event-key-type';
 import type { SvelteComponentTyped } from 'svelte';
 import type { ScaleParams } from 'svelte/transition';
+import type { tagColors } from './constants';
 
-export type TagColor =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark'
-  | 'link'
-  | (string & Record<string, never>)
-  | undefined;
+export type TagColor = typeof tagColors[number] | (string & Record<string, never>);
 
-export type Size = 'lg' | 'sm' | (string & Record<string, never>) | undefined;
+export type Size = 'lg' | 'sm' | (string & Record<string, never>);
 
 export interface TagInputEventMap {
   change: string[];
