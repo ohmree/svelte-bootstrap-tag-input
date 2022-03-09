@@ -42,17 +42,33 @@
   <Checkbox label="Disable input" bind:checked={disabled} />
 
   <label for="bgSelect">Background color</label>
-  <select id="bgSelect" bind:value={tagBackground} class="form-select" aria-label="Select background color">
+  <select
+    id="bgSelect"
+    bind:value={tagBackground}
+    class="form-select"
+    aria-label="Select background color"
+  >
     {#each tagColors as color}
       <option value={color}>{color}</option>
     {/each}
   </select>
   <label for="fgSelect">Foreground color</label>
-  <select id="fgSelect" bind:value={tagForeground} class="form-select" aria-label="Select foreground color">
+  <select
+    id="fgSelect"
+    bind:value={tagForeground}
+    class="form-select"
+    aria-label="Select foreground color"
+  >
     {#each tagColors as color}
       <option value={color}>{color}</option>
     {/each}
   </select>
   <label for="placeholderInput">Placeholder text</label>
-  <input id="placeholderInput" class="form-control" type="text" placeholder="Placeholder" bind:value={placeholder} />
+  <input
+    id="placeholderInput"
+    class="form-control"
+    type="text"
+    placeholder="Placeholder"
+    bind:value={placeholder}
+  />
 </div>
