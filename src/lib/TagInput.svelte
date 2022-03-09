@@ -38,10 +38,11 @@
   export let allowPaste = false;
   export let allowDrop = false;
   export let disabled = false;
-  export let tagColor: TagColor = 'secondary';
+  export let tagBackground: TagColor = 'secondary';
+  export let tagForeground: TagColor = 'light';
   export let hasError = false;
   export let placeholder: string | undefined = undefined;
-  export let inputSize: Size = undefined;
+  export let inputSize: Size | undefined = undefined;
   export let label: string | undefined = undefined;
   export let id: string | undefined = undefined;
   export let transform: ((value: string) => string) | undefined = undefined;
@@ -55,18 +56,10 @@
   );
 
   function pushTag(text: string) {
-    if (transform) {
-      tags.update((v) => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        v.push({ key: Symbol(), text: transform!(text) });
-        return v;
-      });
-    } else {
-      tags.update((v) => {
-        v.push({ key: Symbol(), text });
-        return v;
-      });
-    }
+    tags.update((v) => {
+      v.push({ key: Symbol(), text });
+      return v;
+    });
   }
 
   function popTag() {
@@ -148,7 +141,7 @@
 
   function addTag(newTag?: string) {
     newTag ??= tag;
-    newTag = newTag.trim();
+    newTag = (transform ? transform(newTag) : newTag).trim();
 
     const newTagIndex = $tags.findIndex(({ text }) => text === newTag);
 
@@ -186,7 +179,7 @@
       {@const isDuplicate = !allowDuplicates && duplicateIndices.has(i)}
       {@const transitionHandler = !allowDuplicates ? () => removeDuplicateIndex(i) : undefined}
       <span
-        class="tag d-inline-flex align-items-center badge bg-{tagColor}"
+        class="tag d-inline-flex align-items-center badge bg-{tagBackground} text-{tagForeground}"
         style:transform={isDuplicate ? 'scale(1.09)' : ''}
         transition:scale={scaleParams}
         on:transitionend={transitionHandler}
@@ -209,7 +202,7 @@
     {/if}
     <input
       {id}
-      class="d-inline flex-fill w-auto"
+      class="d-inline flex-fill w-auto form-control"
       type="text"
       size={placeholder?.length}
       {placeholder}
@@ -250,6 +243,7 @@
         border-color: transparent;
         border-width: 1px 0;
         min-width: 1em;
+        box-shadow: none;
       }
     }
 
